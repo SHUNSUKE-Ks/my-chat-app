@@ -55,7 +55,10 @@ io.on("connection", (socket) => {
   });
 });
 
+// 🛠️ Render対応: PORT環境変数が存在すればそれを使用（なければ3000）
+const PORT = process.env.PORT || 3000;
+
 // 🚀 サーバー起動
-server.listen(3000, () => {
-  console.log("🚀 サーバー起動：http://localhost:3000");
+server.listen(PORT, () => {
+  console.log(`🚀 サーバー起動：http://localhost:${PORT}`);
 });
