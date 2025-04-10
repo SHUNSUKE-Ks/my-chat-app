@@ -1,9 +1,7 @@
 // ChatBox.jsx
 import { useEffect, useState } from 'react';
-import io from 'socket.io-client';
+import socket from '@/utils/socket'; // 変更ポイント：utils/socket.js にまとめてエクスポート
 import './ChatBox.css';
-
-const socket = io('http://localhost:3000');
 
 const ChatBox = ({ defaultName }) => {
   const [username, setUsername] = useState(defaultName);
@@ -12,19 +10,22 @@ const ChatBox = ({ defaultName }) => {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
 
+  // ソケット受信時の処理
   useEffect(() => {
     socket.on('receive_message', (data) => {
       setMessages((prev) => [...prev, data]);
     });
-    return () => socket.off('receive_message');
+    return () => socket.off('receive_message'); // クリーンアップ
   }, []);
 
+  // メッセージ送信
   const sendMessage = () => {
     if (!message.trim()) return;
     socket.emit('send_message', { user: username, text: message });
     setMessage('');
   };
 
+  // 名前の追加
   const registerNewName = () => {
     if (newName.trim() && !nameList.includes(newName)) {
       setNameList([...nameList, newName]);
@@ -33,6 +34,7 @@ const ChatBox = ({ defaultName }) => {
     }
   };
 
+  // 名前の削除
   const deleteCurrentName = () => {
     if (nameList.length === 1) return alert('最後の名前は削除できません');
     const updated = nameList.filter((n) => n !== username);
@@ -43,6 +45,7 @@ const ChatBox = ({ defaultName }) => {
   return (
     <div className="chat-container">
       <h3 className="chat-header">ようこそ、チャットアプリへ</h3>
+
       <div className="name-box">
         <input value={newName} onChange={(e) => setNewName(e.target.value)} placeholder="名前を入力" />
         <button onClick={registerNewName}>登録</button>
@@ -57,6 +60,7 @@ const ChatBox = ({ defaultName }) => {
           }}>🗑️</button>
         </div>
       </div>
+
       <div className="chat-box">
         {messages.map((msg, i) => (
           <p key={i} className={`chat-message ${msg.user === username ? 'left' : 'right'}`}>
@@ -64,8 +68,14 @@ const ChatBox = ({ defaultName }) => {
           </p>
         ))}
       </div>
-      <input className="chat-input" value={message} onChange={(e) => setMessage(e.target.value)}
-        onKeyDown={(e) => e.key === 'Enter' && sendMessage()} placeholder="メッセージを入力" />
+
+      <input
+        className="chat-input"
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+        onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
+        placeholder="メッセージを入力"
+      />
       <button className="chat-send-button" onClick={sendMessage}>Send</button>
     </div>
   );

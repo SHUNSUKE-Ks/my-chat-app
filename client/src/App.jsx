@@ -1,4 +1,6 @@
 import ChatBox from './components/ChatBox';
+import socket from './utils/socket';
+
 
 function App() {
   return (
