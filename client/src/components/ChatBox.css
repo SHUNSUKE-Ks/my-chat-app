@@ -1,0 +1,37 @@
+.chat-container {
+  width: 50%;
+  padding: 10px;
+}
+.chat-header {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.name-box {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.chat-box {
+  height: 300px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+  overflow-y: auto;
+  background: #f9f9f9;
+}
+.chat-message {
+  margin: 5px 0;
+}
+.chat-message.left {
+  text-align: left;
+}
+.chat-message.right {
+  text-align: right;
+}
+.chat-input {
+  width: 70%;
+}
+.chat-send-button {
+  margin-left: 5px;
+}
