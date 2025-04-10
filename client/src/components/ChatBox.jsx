@@ -1,6 +1,6 @@
 // ChatBox.jsx
 import { useEffect, useState } from 'react';
-import socket from '@/utils/socket'; // 変更ポイント：utils/socket.js にまとめてエクスポート
+import socket from "../utils/socket";// 変更ポイント：utils/socket.js にまとめてエクスポート
 import './ChatBox.css';
 
 const ChatBox = ({ defaultName }) => {
